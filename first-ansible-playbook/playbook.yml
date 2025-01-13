@@ -1,22 +1,27 @@
 ---
 - hosts: all
-  become: yes
-
+  become: true
   tasks:
-  - name: Ensure chrony (for time synchronization) is installed.
-    dnf:
-      name: chrony
-      state: present
+    - name: Install python via pacman
+      package:
+        name: python
+        state: present
 
-  - name: Ensure chrony is running.
-    service:
-      name: chronyd
-      state: started
-      enabled: yes
+    - name: Install vim
+      package:
+        name: vim
+        state: present
 
-# The same as the above play, but in super-compact form!
-- hosts: all
-  become: yes
-  tasks:
-  - dnf: name=chrony state=present
-  - service: name=chronyd state=started enabled=yes
+    - name: Install 7zip
+      package: name=7zip state=present
+
+    - name: Ensure chrony is installed
+      package: 
+        name: chrony
+        state: present
+
+    - name: Ensure chrony is running
+      service:
+        name: chronyd
+        state: started
+        enabled: yes
